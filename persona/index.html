@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f1e9" />
+    <title>识人簿 · 人物观察与决策工作台</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="人物档案导航">
+        <div class="brand-row">
+          <div class="brand-mark" aria-hidden="true">识</div>
+          <div>
+            <strong>识人簿</strong>
+            <span>PERSONA NOTES</span>
+          </div>
+          <button class="icon-button mobile-close" id="closeSidebar" aria-label="关闭人物列表">×</button>
+        </div>
+
+        <button class="primary-button full-width" id="addPersonButton">
+          <span aria-hidden="true">＋</span> 新建人物档案
+        </button>
+
+        <label class="search-box">
+          <span aria-hidden="true">⌕</span>
+          <input id="searchInput" type="search" placeholder="搜索人物或标签" />
+        </label>
+
+        <div class="list-heading">
+          <span>人物档案</span>
+          <span id="peopleCount">0</span>
+        </div>
+        <div class="people-list" id="peopleList"></div>
+
+        <div class="sidebar-footer">
+          <button class="text-button" id="importButton">恢复备份</button>
+          <button class="text-button" id="exportButton">完整备份</button>
+          <input id="importInput" type="file" accept="application/json" hidden />
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <button class="icon-button menu-button" id="openSidebar" aria-label="打开人物列表">☰</button>
+          <div>
+            <span class="eyebrow">人物观察工作台</span>
+            <h1 id="pageTitle">人物档案</h1>
+          </div>
+          <div class="topbar-actions">
+            <span class="local-pill"><i></i> 仅保存在本机</span>
+            <button class="secondary-button" id="addObservationButton">＋ 添加观察</button>
+            <button class="secondary-button" id="editPersonButton">编辑档案</button>
+          </div>
+        </header>
+
+        <div class="workspace-grid">
+          <section class="profile-area" id="profileArea" aria-live="polite"></section>
+
+          <aside class="decision-panel" aria-label="决策辅助">
+            <div class="panel-heading">
+              <div>
+                <span class="eyebrow coral">DECISION LENS</span>
+                <h2>决策镜</h2>
+              </div>
+              <span class="spark" aria-hidden="true">✦</span>
+            </div>
+            <p class="panel-intro">把具体情境写下来，从对方在意的事和沟通习惯出发梳理选择。</p>
+
+            <label class="field-label" for="scenarioInput">你现在要决定什么？</label>
+            <textarea id="scenarioInput" rows="4" placeholder="例如：想邀请对方参加周末活动，怎样表达更合适？"></textarea>
+
+            <div class="option-grid">
+              <label>
+                <span>方案 A</span>
+                <input id="optionA" type="text" placeholder="直接发出邀请" />
+              </label>
+              <label>
+                <span>方案 B</span>
+                <input id="optionB" type="text" placeholder="先询问时间安排" />
+              </label>
+            </div>
+
+            <button class="primary-button full-width analyze-button" id="analyzeButton">分析这个情境 <span>→</span></button>
+
+            <div class="decision-empty" id="decisionOutput">
+              <span class="empty-symbol">◎</span>
+              <p>填写情境后，这里会给出考虑角度、沟通建议和需要确认的问题。</p>
+            </div>
+            <p class="disclaimer">建议来自你记录的观察，仅作沟通参考，不代表对方的真实想法。</p>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <div class="modal-backdrop" id="personModal" hidden>
+      <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <header class="modal-header">
+          <div>
+            <span class="eyebrow">PERSONA FILE</span>
+            <h2 id="modalTitle">新建人物档案</h2>
+          </div>
+          <button class="icon-button" id="closeModal" aria-label="关闭">×</button>
+        </header>
+        <form id="personForm">
+          <input type="hidden" id="personId" />
+          <div class="form-grid">
+            <label class="field span-2">
+              <span>称呼 *</span>
+              <input id="nameInput" required maxlength="30" placeholder="用昵称即可" />
+            </label>
+            <label class="field">
+              <span>与你的关系</span>
+              <input id="relationInput" maxlength="30" placeholder="朋友、同学、合作伙伴" />
+            </label>
+            <label class="field">
+              <span>认识时间</span>
+              <input id="knownForInput" maxlength="30" placeholder="例如：2 年" />
+            </label>
+            <label class="field">
+              <span>MBTI</span>
+              <select id="mbtiInput">
+                <option value="不确定">不确定</option>
+                <option>INTJ</option><option>INTP</option><option>ENTJ</option><option>ENTP</option>
+                <option>INFJ</option><option>INFP</option><option>ENFJ</option><option>ENFP</option>
+                <option>ISTJ</option><option>ISFJ</option><option>ESTJ</option><option>ESFJ</option>
+                <option>ISTP</option><option>ISFP</option><option>ESTP</option><option>ESFP</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>星座</span>
+              <select id="zodiacInput">
+                <option value="不确定">不确定</option>
+                <option>白羊座</option><option>金牛座</option><option>双子座</option><option>巨蟹座</option>
+                <option>狮子座</option><option>处女座</option><option>天秤座</option><option>天蝎座</option>
+                <option>射手座</option><option>摩羯座</option><option>水瓶座</option><option>双鱼座</option>
+              </select>
+            </label>
+            <label class="field span-2">
+              <span>记录许可</span>
+              <select id="consentInput">
+                <option value="not_recorded">尚未记录</option>
+                <option value="granted">已获得许可</option>
+                <option value="declined">对方不希望被记录</option>
+              </select>
+            </label>
+            <label class="field span-2">
+              <span>性格特点</span>
+              <input id="traitsInput" placeholder="用逗号分隔，例如：细致, 慢热, 有主见" />
+            </label>
+            <label class="field span-2">
+              <span>在意的事情</span>
+              <input id="caresInput" placeholder="用逗号分隔，例如：提前安排, 被认真倾听, 守时" />
+            </label>
+            <label class="field span-2">
+              <span>沟通偏好</span>
+              <textarea id="communicationInput" rows="2" placeholder="例如：喜欢先了解背景，再讨论具体方案"></textarea>
+            </label>
+            <label class="field span-2">
+              <span>边界与应避免的事</span>
+              <textarea id="boundariesInput" rows="2" placeholder="只记录对沟通真正有帮助的内容"></textarea>
+            </label>
+            <label class="field span-2">
+              <span>追加一条观察事实</span>
+              <textarea id="observationInput" rows="3" placeholder="只写实际发生了什么，例如：讨论时间时，对方先问了每个人是否方便"></textarea>
+            </label>
+            <label class="field">
+              <span>发生场景</span>
+              <input id="observationContextInput" placeholder="例如：小组讨论" />
+            </label>
+            <label class="field">
+              <span>信息来源</span>
+              <select id="evidenceTypeInput">
+                <option value="observed">亲自观察</option>
+                <option value="self_report">对方本人表达</option>
+                <option value="inferred">我的推测</option>
+              </select>
+            </label>
+            <label class="field span-2">
+              <span>你的理解（与事实分开）</span>
+              <textarea id="interpretationInput" rows="2" placeholder="例如：可能比较重视所有人的时间安排"></textarea>
+            </label>
+            <label class="field span-2">
+              <span>这条理解的可信度：<output id="confidenceOutput">60</output>%</span>
+              <input id="confidenceInput" type="range" min="0" max="100" value="60" />
+            </label>
+          </div>
+          <div class="privacy-note"><strong>记录提醒</strong>：尽量使用昵称，征得对方同意，只记录沟通所必需的信息。</div>
+          <footer class="modal-actions">
+            <button class="danger-text" id="deletePersonButton" type="button">删除档案</button>
+            <div>
+              <button class="secondary-button" id="cancelModal" type="button">取消</button>
+              <button class="primary-button" type="submit">保存档案</button>
+            </div>
+          </footer>
+        </form>
+      </section>
+    </div>
+
+    <div class="modal-backdrop" id="observationModal" hidden>
+      <section class="modal compact-modal" role="dialog" aria-modal="true" aria-labelledby="observationModalTitle">
+        <header class="modal-header">
+          <div><span class="eyebrow">EVIDENCE NOTE</span><h2 id="observationModalTitle">添加观察</h2></div>
+          <button class="icon-button" id="closeObservationModal" aria-label="关闭">×</button>
+        </header>
+        <form id="observationForm">
+          <input type="hidden" id="observationId" />
+          <div class="form-grid">
+            <label class="field"><span>日期</span><input id="observationDate" type="date" /></label>
+            <label class="field"><span>发生场景</span><input id="observationContext" placeholder="例如：项目讨论" /></label>
+            <label class="field span-2"><span>观察事实 *</span><textarea id="observationFact" rows="3" required placeholder="只写实际发生了什么"></textarea></label>
+            <label class="field span-2"><span>你的理解</span><textarea id="observationInterpretation" rows="2" placeholder="与事实分开，允许以后修正"></textarea></label>
+            <label class="field"><span>信息来源</span><select id="observationEvidenceType"><option value="observed">亲自观察</option><option value="self_report">本人表达</option><option value="inferred">个人推测</option></select></label>
+            <label class="field"><span>可信度：<output id="observationConfidenceOutput">60</output>%</span><input id="observationConfidence" type="range" min="0" max="100" value="60" /></label>
+          </div>
+          <footer class="modal-actions end"><button class="secondary-button" id="cancelObservationModal" type="button">取消</button><button class="primary-button" type="submit">保存观察</button></footer>
+        </form>
+      </section>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="./app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "lin-xia",
+    "name": "林夏",
+    "relation": "合作伙伴",
+    "knownFor": "1 年 8 个月",
+    "mbti": "INFJ",
+    "zodiac": "天秤座",
+    "traits": ["细致", "有同理心", "先观察后表达", "重视完整性"],
+    "cares": ["提前了解安排", "承诺被认真对待", "有独处整理的时间"],
+    "communication": "先交代背景和目的，再给出可以讨论的具体选项。重要决定不适合临时催促。",
+    "boundaries": "避免公开施压，也不要把沉默直接理解为拒绝。给她一点整理想法的时间。",
+    "consentStatus": "not_recorded",
+    "color": "#3d7771",
+    "observations": [
+      {
+        "date": "2026-07-06",
+        "context": "共同策划活动",
+        "fact": "讨论活动方案时，她先询问参与者是否都能适应时间安排，之后才谈自己的偏好。",
+        "interpretation": "可能比较重视安排对每个人的影响。",
+        "evidenceType": "observed",
+        "confidence": 75
+      },
+      {
+        "date": "2026-06-18",
+        "context": "项目复盘",
+        "fact": "面对两个都不错的方案，她选择了后续维护成本更低的那个。",
+        "interpretation": "可能更偏好长期稳定、容易维护的方案。",
+        "evidenceType": "observed",
+        "confidence": 68
+      }
+    ]
+  },
+  {
+    "id": "zhou-yan",
+    "name": "周言",
+    "relation": "同学",
+    "knownFor": "3 年",
+    "mbti": "ENTP",
+    "zodiac": "双子座",
+    "traits": ["反应快", "好奇", "喜欢讨论", "讨厌重复"],
+    "cares": ["想法有新意", "保留选择空间", "交流直接高效"],
+    "communication": "可以先抛出有趣的问题，再谈执行细节。表达结论时最好同时说明思考过程。",
+    "boundaries": "不要用单一标签概括他，也尽量避免把探索性的想法当作最终承诺。",
+    "consentStatus": "not_recorded",
+    "color": "#c55743",
+    "observations": [
+      {
+        "date": "2026-07-01",
+        "context": "小组讨论",
+        "fact": "小组陷入僵局时，他主动提出了一个完全不同的方向。",
+        "interpretation": "在停滞状态下可能更愿意探索新方案。",
+        "evidenceType": "observed",
+        "confidence": 72
+      }
+    ]
+  }
+]
